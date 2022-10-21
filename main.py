@@ -14,6 +14,7 @@ import config
 
 def main():
     """
+    To implement the histogram equalization
     """
     # Create folder if it doesn't exist
     utils.create_folder(config.SRC_FOLDER)
@@ -23,28 +24,28 @@ def main():
     TARGET_PIC_SRC = os.path.join(config.SRC_FOLDER, config.TARGET_PIC)
     # Load files as np.array objects
     origin = utils.load_picture(TARGET_PIC_SRC)
-    eq_img_array = utils.hist_equalize(origin)
+    equalized = utils.hist_equalize(origin)
 
     # Save the original and equalized image in grayscale
     # The path to save the original
-    DEST_PATH_ORIGINAL = os.path.join(config.DEST_FOLDER, f'img_Original')
-    DEST_PATH_EQUALIZED = os.path.join(config.DEST_FOLDER, f'img_Equalized')
+    DEST_PATH_ORIGINAL = os.path.join(config.DEST_FOLDER, f'img_original')
+    DEST_PATH_EQUALIZED = os.path.join(config.DEST_FOLDER, f'img_equalized')
     # Save the picture
     utils.save_picture_rgb(DEST_PATH_ORIGINAL, origin)
-    utils.save_picture_rgb(DEST_PATH_EQUALIZED, eq_img_array)
+    utils.save_picture_rgb(DEST_PATH_EQUALIZED, equalized)
 
     # Result analysis
     # Calculate the CDF and PDF of original image
-    origin_hist, origin_hist_cumulative_sum = utils.get_hist(
+    origin_hist_probability, origin_hist_cumulative = utils.get_hist(
         img_arr=origin, return_cumulative=True)
-    ori_cdf = origin_hist_cumulative_sum
-    ori_pdf = origin_hist
+    ori_cdf = origin_hist_cumulative
+    ori_pdf = origin_hist_probability
 
     # Calculate the CDF and PDF of and equalized image
-    eq_hist, eq_hist_cumulative_sum = utils.get_hist(
-        img_arr=eq_img_array, return_cumulative=True)
-    eq_cdf = eq_hist_cumulative_sum
-    eq_pdf = eq_hist
+    eq_hist_probability, eq_hist_cumulative = utils.get_hist(
+        img_arr=equalized, return_cumulative=True)
+    eq_cdf = eq_hist_cumulative
+    eq_pdf = eq_hist_probability
 
     # Save the image
     plt.figure()
@@ -53,7 +54,7 @@ def main():
     plt.xlabel('Pixel intensity')
     plt.ylabel('Distribution')
     plt.legend(['Original', 'Equalized'])
-    DEST_PATH_PDF = os.path.join(config.DEST_FOLDER, f'Analysis_PDF.jpg')
+    DEST_PATH_PDF = os.path.join(config.DEST_FOLDER, f'analysis_PDF.jpg')
     plt.savefig(DEST_PATH_PDF)
 
     plt.figure()
@@ -62,7 +63,7 @@ def main():
     plt.xlabel('Pixel intensity')
     plt.ylabel('Distribution')
     plt.legend(['Original', 'Equalized'])
-    DEST_PATH_CDF = os.path.join(config.DEST_FOLDER, f'Analysis_CDF.jpg')
+    DEST_PATH_CDF = os.path.join(config.DEST_FOLDER, f'analysis_CDF.jpg')
     plt.savefig(DEST_PATH_CDF)
 
 

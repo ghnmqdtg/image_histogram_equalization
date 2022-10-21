@@ -5,4 +5,3 @@ TARGET_PIC = "target.jpg"
 
 # SETTINGS
 PICTURE_SIZE = (600, 400)
-SAVE_IMG = True

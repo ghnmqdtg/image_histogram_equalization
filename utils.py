@@ -53,26 +53,58 @@ def save_picture_rgb(dest_path: str, img_arr: np.array) -> None:
 
 
 def get_hist(img_arr: np.array, return_cumulative: bool = True) -> np.array:
+    """
+    Retrun the PDF (histogram) and the CDF (cumulative histogram) of the image
+
+    Parameters
+    ----------
+    img_arr : np.array
+        Image to be processed
+    return_cumulative : bool
+        Retrun the cumulative distribution or not
+
+    Returns
+    ----------
+    hist : np.array
+        The probability density of the img (PDF)
+    hist_cumulative : np.array
+        The cumulative distribution of the img (CDF)
+    """
+
     # Flatten the image and calculate the histogram with binning
-    hist = np.bincount(img_arr.flatten(), minlength=256)
+    hist_probability = np.bincount(img_arr.flatten(), minlength=256)
     # Normalize the histogram
-    hist_normalized = hist / (img_arr.shape[0] * img_arr.shape[1])
+    hist_normalized = hist_probability / (img_arr.shape[0] * img_arr.shape[1])
     # cumulative histogram
-    hist_cumulative_sum = np.cumsum(hist_normalized)
+    hist_cumulative = np.cumsum(hist_normalized)
 
     if return_cumulative:
-        return hist, hist_cumulative_sum
+        return hist_probability, hist_cumulative
     else:
-        return hist
+        return hist_probability
 
 
-def hist_equalize(img_arr: np.array):
+def hist_equalize(img_arr: np.array) -> np.array:
+    """
+    Process the histogram equalization to the image, and return the result
+
+    Parameters
+    ----------
+    img_arr : np.array
+        Image to be processed
+
+    Returns
+    ----------
+    eq_img_array : np.array
+        The equalized image
+    """
+
     # STEP 1: Normalized cumulative histogram
-    origin_hist, origin_hist_cumulative_sum = get_hist(
+    origin_hist_probability, origin_hist_cumulative = get_hist(
         img_arr, return_cumulative=True)
 
     # STEP 2: Mapping lookup table
-    transform_map = np.floor(255 * origin_hist_cumulative_sum).astype(np.uint8)
+    transform_map = np.floor(255 * origin_hist_cumulative).astype(np.uint8)
 
     # STEP 3: Transformation and write back into img_array
     # Flatten image array into 1D list
