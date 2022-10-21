@@ -1,4 +1,4 @@
-# Image watermarking using Python
+# Image Histogram Equalization with Python
 ## Introduction
 This project is to implement the histogram equalization with Python. You can put the target img in folder `./src`, and set the configurations in `./config`. For details, please refer to the comments in codes.
 
