@@ -1,11 +1,11 @@
 # Image Histogram Equalization with Python
 ## Introduction
-This project is to implement the histogram equalization with Python. You can put the target img in folder `./src`, and set the configurations in `./config`. For details, please refer to the comments in codes.
+This project is to implement histogram equalization with Python. You can put the target image in folder `./src` and set the configurations in `./config`. For details, please refer to the comments in the codes.
 
 ## Results
 
 ## Input and Output
-> In the example image, I decreased the brightness of the original image, and converted it to grayscale.
+> For the example image, I decreased the brightness of the original image and converted it to grayscale.
 
 <table border="0">
  <tr>
@@ -21,7 +21,7 @@ This project is to implement the histogram equalization with Python. You can put
 ## Analysis
 The following two plots compare the PDF (Probability Density Function) and CDF (cumulative distribution function) of input and output images.
 
-As you can see, after applying the histogram equlization, the distrinution of pixel intensity (PDF) becomes more dispersive. And the CDF is uniformly distributed.
+As you can see, after applying the histogram equalization, the pixel intensity distribution (PDF) becomes more dispersed. And the CDF is uniformly distributed.
 
 <table border="0">
  <tr>
